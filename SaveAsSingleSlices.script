@@ -1,0 +1,480 @@
+//----------------------------------------------------------------------------------
+//  Macro module SaveAsSingleSlices
+// \file    SaveAsSingleSlices.script
+// \author  Birgit
+// \date    2017-04-13
+//
+// save original, transformed and noisy slices from an image
+//----------------------------------------------------------------------------------
+
+
+Interface {
+  Inputs {
+    Field input_patient { internalName = InfoPatient.input0 }
+    Field input_patient { internalName = SubImagePatient.input0 }
+    Field input_mask { internalName = InfoMask.input0 }
+    Field input_mask { internalName = SubImageMask.input0 }
+  }
+  
+  Outputs = ""
+  
+  Parameters {
+    Field filename_patient { type = String }
+    Field file_path_patient { type = String }
+    Field filename_mask { type = String }
+    Field file_path_mask { type = String }
+    Field original_bool { type = Bool value = True }
+    Field first_slice { type = Integer }
+    Field last_slice { type = Integer }
+    Field every_slice { type = Bool value = True } 
+    Field export_button { type = Trigger }
+    Field export_progress { type = Float }
+    Field trigger_field { type = Trigger }
+    Field data_type { type = Enum
+      Items {
+        item TIFF { title = "TIFF" }
+        item PNG { title = "PNG" }
+      }
+    }
+    Field transform_bool { type = Bool value = False }
+    Field combine_transform { type = Bool value = False }
+    Field flip_bool { type = Bool value = False }
+    Field rotate_bool { type = Bool value = False }
+    Field start_rotation { type = Integer value = -8 }
+    Field stop_rotation { type = Integer value = 8 }
+    Field stepsize_rot { type = Integer value = 16 }
+    Field scale_bool { type = bool value = False }
+    Field start_scalex { type = Float value = 0.96 }
+    Field stop_scalex { type = Float value = 1.04 }
+    Field start_scaley { type = Float value = 0.96 }
+    Field stop_scaley { type = Float value = 1.04 }
+    Field stepsize_scale { type = Float value = 0.08 }
+    Field symmetric_scaling_bool { type = bool value = False }
+    
+    Field noise_bool { type = bool value = False }
+    Field type_uniform { type = bool value = False }
+    Field type_gauss { type = bool value = False }
+    Field type_saltpepper { type = bool value = False }
+    Field amplitude_uniform_start { type = Integer value = 800 }
+    Field amplitude_uniform_stop { type = Integer value = 800 }
+    Field stepsize_uniform { type = Integer value = 200 }
+    Field gauss_mean_value { type = Integer value = 0 }
+    Field gauss_sigma_start { type = Integer value = 300 }
+    Field gauss_sigma_stop { type = Integer value = 300 }
+    Field stepsize_gauss { type = Integer value = 100 }
+    Field amplitude_salt { type = Integer value = -2000 }
+    Field amplitude_pepper { type = Integer value = 2000 }
+    Field density_sap_start { type = Float value = 0.05 }
+    Field density_sap_stop { type = Float value = 0.05 }
+    Field stepsize_sap { type = Float value = 0.02 }
+  }
+}
+
+
+Commands {
+  source = $(LOCAL)/SaveAsSingleSlices.py
+  FieldListener export_button {command = export_function}
+}
+
+
+Window {
+   TabView {
+    expandY = True
+    TabViewItem Settings {
+      Box "General Settings" {
+        Table {
+          margin  = 5
+          spacing = 1
+          Row {
+            Field file_path_patient { 
+              title        = "File Path Patient"
+              browseButton = True 
+              browseMode   = directory
+              colspan      = 1
+            }
+          }
+          Row {
+            Field filename_patient {
+              title   = "File Name Patient"
+              colspan = 1
+            }
+          } 
+          Row {
+            HSeparator {
+              colspan = 1
+            }
+          }
+          Row {
+            Field file_path_mask { 
+              title        = "File Path Mask"
+              browseButton = True 
+              browseMode   = directory
+              colspan      = 1
+            }
+          }
+          Row {
+            Field filename_mask {
+              title   = "File Name Mask"
+              colspan = 1
+            }
+          }
+        }
+        
+        HSeparator {}
+        
+        Table {
+          margin  = 2
+          spacing = 5
+          Row {
+            Label {
+              title   = Slices
+              colspan = 1
+              alignX  = Left
+            }
+            Field first_slice {
+              title     = From
+              step      = 1
+              dependsOn = !every_slice
+              colspan   = 1
+            }
+            Field last_slice {
+              title     = To
+              step      = 1
+              dependsOn = !every_slice
+              colspan   = 1
+            }
+            Field every_slice {
+              title   = "All Slices"
+              colspan = 2
+              alignX  = Center
+            }
+          }  
+          Row {
+            Field original_bool {
+              title   = "Export original image"
+              colspan = 1
+              alignX  = Left
+            }
+            Field data_type {
+              title   = "File Format"
+              colspan = 1
+              comboItems {
+                item TIFF {}
+                item PNG {}
+              }
+            }
+          }
+        }
+      }
+      Box "Export Image"
+      {
+        Horizontal 
+        {
+          ProgressBar export_progress {}
+          Button export_button { title = "Start Export" }       
+        }
+      }
+    }
+      
+    TabViewItem "Affine Transformations" {
+      Box "Transformations" {
+        Table {
+          margin  = 12
+          spacing = 3
+          Row {
+            Field transform_bool {
+              title   = "Apply Transformation"
+              colspan = 1
+              alignX  = Left
+            }
+          }
+          Row {
+            Field combine_transform {
+              title     = "Combine types"
+              dependsOn = transform_bool
+              colspan   = 1
+              alignX    = Left
+            }
+          }
+          Row {
+            HSeparator {
+              colspan = 3
+            }
+          }
+          Row {
+            Field flip_bool
+            {
+              title     = "Flip around y-axis"
+              dependsOn = transform_bool
+              colspan   = 1
+              alignX    = Left
+            }
+          }
+          Row {
+            HSeparator {
+              colspan = 3
+            }
+          }
+          Row {    
+            Field rotate_bool {
+              title     = "Rotate image"
+              dependsOn = transform_bool
+              colspan   = 1
+              alignX    = Left
+            }
+            Field stepsize_rot {
+              title     = "Stepsize"
+              dependsOn = rotate_bool
+              colspan   = 1
+              alignX    = Left
+            }
+          }
+          Row {
+            Label {
+              title = "Rot. angles in degrees:"
+              colspan = 1
+              alignX = Left
+              dependsOn = rotate_bool
+            }
+            Field start_rotation {
+              title     = "From"
+              step      = 1
+              dependsOn = rotate_bool
+              colspan   = 1
+              alignX    = Left
+            }
+            Field stop_rotation {
+              title     = "To"
+              step      = 1
+              dependsOn = rotate_bool
+              colspan   = 1
+              alignX    = Left
+            }
+          }
+          Row {
+            HSeparator {
+              colspan = 3
+            }
+          }
+          Row { 
+            Field scale_bool {
+              title     = "Scale image"
+              dependsOn = transform_bool
+              colspan   = 1
+              alignX    = Left
+            }  
+            Field stepsize_scale {
+              title     = "Stepsize"
+              dependsOn = scale_bool
+              colspan   = 1
+              alignX    = Left
+            }
+          }
+          Row {
+            Field symmetric_scaling_bool {
+              title     = "Symmetric Scaling"
+              dependsOn = scale_bool
+              colspan   = 1
+              alignX    = Left
+            }
+          }
+          Row {
+            Label {
+              title   = "Scalefactors in x:"
+              colspan = 1
+              alignX  = Left
+              dependsOn = scale_bool
+            }
+            Field start_scalex {
+              title     = "From"
+              dependsOn = scale_bool
+              colspan   = 1
+              alignX    = Left
+            }
+            Field stop_scalex {
+              title     = "To"
+              dependsOn = scale_bool
+              colspan   = 1
+              alignX    = Left
+            }
+          }
+          Row {
+            Label {
+              title   = "Scalefactors in y:"
+              colspan = 1
+              alignX  = Left
+              dependsOn = scale_bool
+            }
+            Field start_scaley {
+              title     = "From"
+              dependsOn = scale_bool
+              colspan   = 1
+              alignX    = Left
+            }
+            Field stop_scaley {
+              title     = "To"
+              dependsOn = scale_bool
+              colspan   = 1
+              alignX    = Left
+            } 
+          }
+        }
+      }
+    }
+    
+    TabViewItem "Noise" {
+      Box Noise
+      {
+        Table {
+          margin  = 10
+          spacing = 4
+          Row {
+            Field noise_bool {
+              title   = "Add noise"
+              colspan = 1
+              alignX  = Left
+            }
+          }
+          Row {
+            HSeparator {
+              colspan = 4
+            }
+          }
+          Row {
+            Field type_uniform {
+              title     = "Uniform noise"
+              dependsOn = noise_bool
+              alignX    = Left
+              colspan   = 1
+              alignX    = Left
+            }
+            Field stepsize_uniform {
+              title = Stepsize
+              dependsOn = type_uniform
+              alignX = Left
+              colspan = 1
+            }
+          }
+          Row {
+            Label {
+              title = "Amplitude for Noise:"
+              colspan = 1
+              alignX = Left
+              dependsOn = type_uniform
+            }
+            Field amplitude_uniform_start {
+              title     = "From"
+              dependsOn = type_uniform
+              colspan   = 1
+              alignX    = Left
+            }
+            Field amplitude_uniform_stop {
+              title = "To"
+              dependsOn = type_uniform
+              colspan = 1
+              alignX = Left
+            }
+          }
+          Row {
+            HSeparator {
+              colspan = 4
+            }
+          }
+          Row {
+            Field type_gauss {
+              title     = "Gaussian noise"
+              dependsOn = noise_bool
+              colspan   = 1
+              alignX    = Left
+            }
+            Field gauss_mean_value {
+              title     = "Mean"
+              dependsOn = type_gauss
+              colspan   = 1
+              alignX    = Left
+            }
+          }
+          Row {
+            Label {
+              title = "Standard Deviation:"
+              dependsOn = type_gauss
+              colspan = 1
+              alignX = Left
+            }
+            Field gauss_sigma_start {
+              title     = "From"
+              dependsOn = type_gauss
+              colspan   = 1
+              alignX    = Left
+            }
+            Field gauss_sigma_stop {
+              title     = "To"
+              dependsOn = type_gauss
+              colspan   = 1
+              alignX    = Left
+            }
+            Field stepsize_gauss {
+              title = "Stepsize"
+              dependsOn = type_gauss
+              colspan = 1
+              alignX = Left
+            }
+          }
+          Row {
+            HSeparator {
+              colspan = 4
+            }
+          }
+          Row {
+            Field type_saltpepper {
+              title     = "Salt and Pepper noise"
+              dependsOn = noise_bool
+              colspan   = 1
+              alignX    = Left
+            }
+            Field amplitude_salt {
+              title     = "Salt"
+              dependsOn = type_saltpepper
+              colspan   = 1
+              alignX    = Left
+            }
+            Field amplitude_pepper {
+              title     = "Pepper"
+              dependsOn = type_saltpepper
+              colspan   = 1
+              alignX    = Left
+            }
+          }
+          Row {
+            Label {
+              title = "Density"
+              dependsOn = type_saltpepper
+              colspan = 1
+              alignX = Left
+            }
+            Field density_sap_start {
+              title     = "From"
+              dependsOn = type_saltpepper
+              colspan   = 1
+              alignX    = Left
+            }
+            Field density_sap_stop {
+              title = "To"
+              dependsOn = type_saltpepper
+              colspan = 1
+              alignX = Left
+            }
+            Field stepsize_sap {
+              title = Stepsize
+              dependsOn = type_saltpepper
+              alignX = Left
+              colspan = 1
+            }         
+          }
+        }
+      }
+    }
+  }  
+}
+
+

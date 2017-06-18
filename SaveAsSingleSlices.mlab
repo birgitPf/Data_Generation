@@ -1,0 +1,517 @@
+// MDL v1 utf8
+network  {
+  watchlist = ""
+}
+module Scale {
+  internal  {
+    frame = "1173 169 184 80"
+    moduleGroupName = ""
+    showNetworkPanel = true
+    windows  {
+      window _default {
+        geometry = "610 357 233 337"
+        sizeHint = "233 337"
+        wasOpen = no
+      }
+    }
+  }
+  fields  {
+    instanceName = ScaleMaskNoise
+    inputMin = 0
+    inputMax = 4195
+    updateMode = AutoUpdateMinMaxOn
+    useTrueRange = FALSE
+    typeSelect = UInt16
+    outputMin = 0
+    outputMax = 65535
+  }
+}
+module Scale {
+  internal  {
+    frame = "629 169 184 80"
+    moduleGroupName = ""
+    showNetworkPanel = true
+    windows  {
+      window _default {
+        geometry = "610 357 233 337"
+        sizeHint = "233 337"
+        wasOpen = no
+      }
+    }
+  }
+  fields  {
+    instanceName = ScalePatientNoise
+    inputMin = -1024
+    inputMax = 3122
+    updateMode = AutoUpdateMinMaxOn
+    useTrueRange = FALSE
+    typeSelect = UInt16
+    outputMin = 0
+    outputMax = 65535
+  }
+}
+module ImageSave {
+  internal  {
+    frame = "1205 -15 120 80"
+    moduleGroupName = ""
+    showNetworkPanel = true
+    windows  {
+      window _default {
+        geometry = "767 379 407 500"
+        sizeHint = "401 500"
+        wasOpen = no
+      }
+    }
+  }
+  fields  {
+    instanceName = SaveMaskNoise
+    taskVerboseLogging = FALSE
+    filename = "F:/Masterarbeit Birgit/MeVisLab/SaveSlices/Daten/TestImplementation\\Testexport_119.tif"
+    format = TIFF
+    comment = MeVisLab
+    allowOverwrite = TRUE
+    autoFilename = FALSE
+    sourceName = ""
+    postfix = .result1
+    dicomNameUsed = TRUE
+    dicomMetaHeader = TRUE
+    dicomDerived = TRUE
+    dicomDerivedImageType = "OTHER\\MEVISLAB"
+    dicomDiscardTags = FrameSpecific
+    dicomStoreTimeInfo = None
+    dicomSetWindow = FALSE
+    dicomWindowCenter = 0
+    dicomWindowWidth = 0
+    dicomIgnoreHalfVoxelShift = FALSE
+    tiffCompression = None
+    tiffTileX = 128
+    tiffTileY = 128
+    tiffTileXAuto = TRUE
+    tiffTileYAuto = TRUE
+    saveDicomHeaderOnly = FALSE
+    pngCompression = Default
+    pngInterlaced = FALSE
+    jpegQuality = 75
+    jpegProgressive = FALSE
+  }
+}
+module ImageSave {
+  internal  {
+    frame = "657 -15 128 80"
+    moduleGroupName = ""
+    showNetworkPanel = true
+    windows  {
+      window _default {
+        geometry = "767 379 407 500"
+        sizeHint = "401 500"
+        wasOpen = no
+      }
+    }
+  }
+  fields  {
+    instanceName = SavePatientNoise
+    taskVerboseLogging = FALSE
+    filename = "F:/Masterarbeit Birgit/MeVisLab/SaveSlices/Daten/TestImplementation\\Testexport_119.tif"
+    format = TIFF
+    comment = MeVisLab
+    allowOverwrite = TRUE
+    autoFilename = FALSE
+    sourceName = ""
+    postfix = .result1
+    dicomNameUsed = TRUE
+    dicomMetaHeader = TRUE
+    dicomDerived = TRUE
+    dicomDerivedImageType = "OTHER\\MEVISLAB"
+    dicomDiscardTags = FrameSpecific
+    dicomStoreTimeInfo = None
+    dicomSetWindow = FALSE
+    dicomWindowCenter = 0
+    dicomWindowWidth = 0
+    dicomIgnoreHalfVoxelShift = FALSE
+    tiffCompression = None
+    tiffTileX = 128
+    tiffTileY = 128
+    tiffTileXAuto = TRUE
+    tiffTileYAuto = TRUE
+    saveDicomHeaderOnly = FALSE
+    pngCompression = Default
+    pngInterlaced = FALSE
+    jpegQuality = 75
+    jpegProgressive = FALSE
+  }
+}
+module AddNoise {
+  internal  {
+    frame = "1209 297 112 64"
+    moduleGroupName = ""
+    windows  {
+      window _default {
+        geometry = "791 463 387 215"
+        sizeHint = "353 215"
+        wasOpen = no
+      }
+      window _automatic {
+        geometry = "717 270 500 600"
+        sizeHint = "260 223"
+        wasOpen = no
+      }
+    }
+  }
+  fields  {
+    instanceName = AddNoiseMask
+    amplitude = 100
+    addInput = TRUE
+    randSeed = -1
+    noiseType = Uniform
+    mean = 0
+    sigma = 1
+    sigmaIn = 0
+    sigmaOut = 0
+    amplitude2 = 100
+    density = 0.050000001
+  }
+}
+module AddNoise {
+  internal  {
+    frame = "657 297 128 64"
+    moduleGroupName = ""
+    windows  {
+      window _automatic {
+        geometry = "717 270 500 600"
+        sizeHint = "260 223"
+        wasOpen = no
+      }
+      window _default {
+        geometry = "791 463 387 215"
+        sizeHint = "353 215"
+        wasOpen = no
+      }
+    }
+  }
+  fields  {
+    instanceName = AddNoisePatient
+    amplitude = 100
+    addInput = TRUE
+    randSeed = -1
+    noiseType = Uniform
+    mean = 0
+    sigma = 1
+    sigmaIn = 0
+    sigmaOut = 0
+    amplitude2 = 100
+    density = 0.050000001
+  }
+}
+module ImageSave {
+  internal  {
+    frame = "985 -15 96 80"
+    moduleGroupName = ""
+    showNetworkPanel = true
+    windows  {
+      window _default {
+        geometry = "767 379 407 500"
+        sizeHint = "401 500"
+        wasOpen = no
+      }
+    }
+  }
+  fields  {
+    instanceName = SaveMask
+    taskVerboseLogging = FALSE
+    filename = "F:/Masterarbeit Birgit/MeVisLab/SaveSlices/Daten/TestImplementation/Masks\\Mask1a_Gauss5_10Slice75.tif"
+    format = TIFF
+    comment = MeVisLab
+    allowOverwrite = TRUE
+    autoFilename = FALSE
+    sourceName = ""
+    postfix = .result1
+    dicomNameUsed = TRUE
+    dicomMetaHeader = TRUE
+    dicomDerived = TRUE
+    dicomDerivedImageType = "OTHER\\MEVISLAB"
+    dicomDiscardTags = FrameSpecific
+    dicomStoreTimeInfo = None
+    dicomSetWindow = FALSE
+    dicomWindowCenter = 0
+    dicomWindowWidth = 0
+    dicomIgnoreHalfVoxelShift = FALSE
+    tiffCompression = None
+    tiffTileX = 128
+    tiffTileY = 128
+    tiffTileXAuto = TRUE
+    tiffTileYAuto = TRUE
+    saveDicomHeaderOnly = FALSE
+    pngCompression = Default
+    pngInterlaced = FALSE
+    jpegQuality = 75
+    jpegProgressive = FALSE
+  }
+}
+module SubImage {
+  internal  {
+    frame = "1085 433 120 64"
+    moduleGroupName = ""
+    windows  {
+      window _default {
+        geometry = "770 363 395 533"
+        sizeHint = "395 533"
+        wasOpen = no
+      }
+    }
+  }
+  fields  {
+    instanceName = SubImageMask
+    boxInput = "0 0 0 0 0 0 -1 -1 -1 -1 -1 -1"
+    autoApplyBox = FALSE
+    correctForNegativeSubImageExtents = FALSE
+    enableBoxClamping = FALSE
+    x = 0
+    sx = 32
+    modifyX = FALSE
+    y = 0
+    sy = 32
+    modifyY = FALSE
+    z = 75
+    sz = 1
+    modifyZ = TRUE
+    c = 0
+    sc = 1
+    modifyC = FALSE
+    t = 0
+    st = 1
+    modifyT = FALSE
+    u = 0
+    su = 1
+    modifyU = FALSE
+    fillValue = 0
+    mode = VoxelStartSize
+    autoApply = TRUE
+  }
+}
+module Info {
+  internal  {
+    frame = "993 433 80 64"
+    moduleGroupName = ""
+    windows  {
+      window _default {
+        geometry = "685 442 564 375"
+        sizeHint = "564 375"
+        wasOpen = no
+      }
+    }
+  }
+  fields  {
+    instanceName = InfoMask
+  }
+}
+module Scale {
+  internal  {
+    frame = "941 297 184 80"
+    moduleGroupName = ""
+    showNetworkPanel = true
+    windows  {
+      window _default {
+        geometry = "610 357 233 337"
+        sizeHint = "233 337"
+        wasOpen = no
+      }
+    }
+  }
+  fields  {
+    instanceName = ScaleMask
+    inputMin = 0
+    inputMax = 4095
+    updateMode = AutoUpdateMinMaxOn
+    useTrueRange = FALSE
+    typeSelect = UInt16
+    outputMin = 0
+    outputMax = 65535
+  }
+}
+module AffineTransformation2D {
+  internal  {
+    frame = "953 169 160 64"
+    moduleGroupName = ""
+    windows  {
+      window _default {
+        geometry = "872 463 205 214"
+        sizeHint = "190 214"
+        wasOpen = no
+      }
+    }
+  }
+  fields  {
+    instanceName = TransMask
+    optParameters = "0 0 0 0 1 1 "
+    translationX = 0
+    translationY = 0
+    rotation = 0
+    shearing = 0
+    scalingX = 1
+    scalingY = 1
+  }
+}
+module AffineTransformation2D {
+  internal  {
+    frame = "409 169 160 64"
+    moduleGroupName = ""
+    windows  {
+      window _default {
+        geometry = "872 463 205 214"
+        sizeHint = "190 214"
+        wasOpen = no
+      }
+    }
+  }
+  fields  {
+    instanceName = TransPatient
+    optParameters = "0 0 0 0 1 1 "
+    translationX = 0
+    translationY = 0
+    rotation = 0
+    shearing = 0
+    scalingX = 1
+    scalingY = 1
+  }
+}
+module Scale {
+  internal  {
+    frame = "397 297 184 80"
+    moduleGroupName = ""
+    showNetworkPanel = true
+    windows  {
+      window _default {
+        geometry = "610 357 233 337"
+        sizeHint = "233 337"
+        wasOpen = no
+      }
+    }
+  }
+  fields  {
+    instanceName = ScalePatient
+    inputMin = -1024
+    inputMax = 3022
+    updateMode = AutoUpdateMinMaxOn
+    useTrueRange = FALSE
+    typeSelect = UInt16
+    outputMin = 0
+    outputMax = 65535
+  }
+}
+module Info {
+  internal  {
+    frame = "425 433 96 64"
+    moduleGroupName = ""
+    windows  {
+      window _default {
+        geometry = "685 442 564 375"
+        sizeHint = "564 375"
+        wasOpen = no
+      }
+    }
+  }
+  fields  {
+    instanceName = InfoPatient
+  }
+}
+module SubImage {
+  internal  {
+    frame = "537 433 128 64"
+    moduleGroupName = ""
+    windows  {
+      window _default {
+        geometry = "770 363 395 533"
+        sizeHint = "395 533"
+        wasOpen = no
+      }
+    }
+  }
+  fields  {
+    instanceName = SubImagePatient
+    boxInput = "0 0 0 0 0 0 -1 -1 -1 -1 -1 -1"
+    autoApplyBox = FALSE
+    correctForNegativeSubImageExtents = FALSE
+    enableBoxClamping = FALSE
+    x = 0
+    sx = 32
+    modifyX = FALSE
+    y = 0
+    sy = 32
+    modifyY = FALSE
+    z = 75
+    sz = 1
+    modifyZ = TRUE
+    c = 0
+    sc = 1
+    modifyC = FALSE
+    t = 0
+    st = 1
+    modifyT = FALSE
+    u = 0
+    su = 1
+    modifyU = FALSE
+    fillValue = 0
+    mode = VoxelStartSize
+    autoApply = TRUE
+  }
+}
+module ImageSave {
+  internal  {
+    frame = "441 -15 96 80"
+    moduleGroupName = ""
+    showNetworkPanel = true
+    windows  {
+      window _default {
+        geometry = "767 379 407 500"
+        sizeHint = "401 500"
+        wasOpen = no
+      }
+    }
+  }
+  fields  {
+    instanceName = SavePatient
+    taskVerboseLogging = FALSE
+    filename = "F:/Masterarbeit Birgit/MeVisLab/SaveSlices/Daten/TestImplementation/Patient\\Pat1_Gauss5_10Slice75.tif"
+    format = TIFF
+    comment = MeVisLab
+    allowOverwrite = TRUE
+    autoFilename = FALSE
+    sourceName = ""
+    postfix = .result1
+    dicomNameUsed = TRUE
+    dicomMetaHeader = TRUE
+    dicomDerived = TRUE
+    dicomDerivedImageType = "OTHER\\MEVISLAB"
+    dicomDiscardTags = FrameSpecific
+    dicomStoreTimeInfo = None
+    dicomSetWindow = FALSE
+    dicomWindowCenter = 0
+    dicomWindowWidth = 0
+    dicomIgnoreHalfVoxelShift = FALSE
+    tiffCompression = None
+    tiffTileX = 128
+    tiffTileY = 128
+    tiffTileXAuto = TRUE
+    tiffTileYAuto = TRUE
+    saveDicomHeaderOnly = FALSE
+    pngCompression = Default
+    pngInterlaced = FALSE
+    jpegQuality = 75
+    jpegProgressive = FALSE
+  }
+}
+connections  {
+  ScaleMaskNoise.input0 = AddNoiseMask.output0
+  ScalePatientNoise.input0 = AddNoisePatient.output0
+  SaveMaskNoise.input0 = ScaleMaskNoise.output0
+  SavePatientNoise.input0 = ScalePatientNoise.output0
+  AddNoiseMask.input0 = SubImageMask.output0
+  AddNoisePatient.input0 = SubImagePatient.output0
+  SaveMask.input0 = TransMask.output0
+  ScaleMask.input0 = SubImageMask.output0
+  TransMask.input0 = ScaleMask.output0
+  TransPatient.input0 = ScalePatient.output0
+  ScalePatient.input0 = SubImagePatient.output0
+  SavePatient.input0 = TransPatient.output0
+}
+networkModel = ""
